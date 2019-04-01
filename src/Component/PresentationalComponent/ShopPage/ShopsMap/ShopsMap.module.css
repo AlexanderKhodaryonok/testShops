@@ -1,0 +1,32 @@
+.wrapper {
+    width: 20%;
+    min-width: 100px;
+}
+
+.title {
+    text-align: center;
+}
+
+.mapItem {
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.mapItems :last-child {
+    border-bottom: 1px solid black;
+}
+
+.pickedMapItem {
+    background-color: #5ef4d5;
+}
+
+@media (max-width: 800px) {
+
+    .wrapper {
+        width: 100%;
+        min-width: 100px;
+    }
+}

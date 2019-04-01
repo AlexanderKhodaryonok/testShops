@@ -1,0 +1,30 @@
+.textForm {
+    display: flex;
+}
+
+.content {
+    padding: 20px;
+    margin: 0 auto;
+    border: 1px solid #1ceaf4;
+    border-radius: 10px;
+}
+
+.wrapper {
+    margin: 100px auto;
+    display: flex
+}
+
+.button {
+    margin: 5px 0 0 0;
+    border-radius: 10px;
+    background-color: #c0a4ff;
+    margin-left: 80%;
+}
+
+.textFields {
+    padding: 0 0 0 5px
+}
+
+.button a {
+    text-decoration: none;
+}

@@ -1,0 +1,39 @@
+/*drag'n'drop classes*/
+.cursorY {
+    cursor: ns-resize;
+}
+
+.box {
+    background: #fff;
+    border: 1px solid #999;
+    border-radius: 3px;
+    width: 180px;
+    height: 180px;
+    margin: 10px;
+    padding: 10px;
+    float: left;
+}
+/*----------------------------------*/
+.button {
+    border-radius: 10px;
+    background-color: #c0a4ff;
+    margin-left: 64%;
+}
+
+.wrapper a {
+    text-decoration: none;
+}
+
+.table {
+    border: 1px solid black;
+    padding: 20px;
+    border-collapse: collapse;
+    margin: 20px auto;
+}
+
+.table td {
+    padding: 10px;
+    border: 1px solid black;
+    max-width: 200px;
+    word-wrap: break-word;
+}
