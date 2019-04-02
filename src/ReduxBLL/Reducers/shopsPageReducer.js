@@ -1,11 +1,20 @@
 import {handleActions} from "redux-actions";
 import {findIndex, guid} from "../../Services/Secondary functions";
 import {
-    addProduct, addShop, editProduct, editShop, increaseShopsCount,
+    addProduct,
+    addShop,
+    editProduct,
+    editShop,
+    increaseShopsCount,
     productDescriptionOnChange,
-    productTitleOnChange, setProductId, setShopId, shopAddressOnChange,
-    shopNameOnChange, shopWorkingHoursOnChange
+    productTitleOnChange,
+    setProductId,
+    setShopId,
+    shopAddressOnChange,
+    shopNameOnChange,
+    shopWorkingHoursOnChange
 } from "../ActionThunksCreators/ShopsPageActionCreators";
+import lodash from 'lodash'
 
 let initialState = {
     currentWritingShop: {
@@ -20,7 +29,7 @@ let initialState = {
     },
     currentProductId: null,
     currentShopId: null,
-    shopsCount: 3,
+    shopsCount: 2,
     shops: [
         {
             id: 'shop1qwew',
@@ -95,15 +104,14 @@ const shopPageReducer = handleActions({
             workingHours,
             products: []
         };
-        return {
-            ...state, shops: [...state.shops, newShop],
-            currentWritingShop: {
-                ...state.currentWritingShop,
-                name: '',
-                address: '',
-                workingHours: ''
-            }
-        }
+        let stateCopy = lodash.cloneDeep(state);
+
+        stateCopy.shops = [...state.shops, newShop];
+        stateCopy.currentWritingShop.name = '';
+        stateCopy.currentWritingShop.address = '';
+        stateCopy.currentWritingShop.workingHours = '';
+
+        return stateCopy
     },
 
     [editShop.toString()]: (state, {
@@ -116,32 +124,38 @@ const shopPageReducer = handleActions({
         }
     }) => {
         let index = findIndex(state.shops, state.currentShopId);
-        let newState = {
-            ...state,
-            shops: [
-                ...state.shops,
-            ],
-        };
+        let stateCopy = lodash.cloneDeep(state);
+
         if (/\S/.test(state.currentWritingShop.name) && state.currentWritingShop.name != null) {
-            newState.shops[index].name = name;
-            newState.currentWritingShop.name = null
+            stateCopy.shops[index].name = name;
+            stateCopy.currentWritingShop.name = null
         } else {
-            newState.shops[index].name = state.shops[index].name
+            stateCopy.shops[index].name = state.shops[index].name
         }
         if (/\S/.test(state.currentWritingShop.address) && state.currentWritingShop.address != null) {
-            newState.shops[index].address = address;
-            newState.currentWritingShop.address = null
+            stateCopy.shops[index].address = address;
+            stateCopy.currentWritingShop.address = null
         } else {
-            newState.shops[index].address = state.shops[index].address
+            stateCopy.shops[index].address = state.shops[index].address
         }
         if (/\S/.test(state.currentWritingShop.workingHours) && state.currentWritingShop.workingHours != null) {
-            newState.shops[index].workingHours = workingHours;
-            newState.currentWritingShop.workingHours = null
+            stateCopy.shops[index].workingHours = workingHours;
+            stateCopy.currentWritingShop.workingHours = null
         } else {
-            newState.shops[index].workingHours = state.shops[index].workingHours
+            stateCopy.shops[index].workingHours = state.shops[index].workingHours
         }
 
-        return newState;
+        return stateCopy;
+    },
+
+    [shopNameOnChange.toString()]: (state, {
+        payload: {
+            name
+        }
+    }) => {
+        let stateCopy = lodash.cloneDeep(state);
+        stateCopy.currentWritingShop.name = name;
+        return stateCopy
     },
 
     [shopWorkingHoursOnChange.toString()]: (state, {
@@ -149,11 +163,9 @@ const shopPageReducer = handleActions({
             workingHours
         }
     }) => {
-        return {
-            ...state, currentWritingShop: {
-                ...state.currentWritingShop, workingHours: workingHours
-            }
-        }
+        let stateCopy =  lodash.cloneDeep(state);
+        stateCopy.currentWritingShop.workingHours = workingHours;
+        return stateCopy
     },
 
     [shopAddressOnChange.toString()]: (state, {
@@ -161,11 +173,9 @@ const shopPageReducer = handleActions({
             address
         }
     }) => {
-        return {
-            ...state, currentWritingShop: {
-                ...state.currentWritingShop, address: address
-            }
-        }
+        let stateCopy =  lodash.cloneDeep(state);
+        stateCopy.currentWritingShop.address = address;
+        return stateCopy
     },
 
     [editProduct.toString()]: (state, {
@@ -178,28 +188,22 @@ const shopPageReducer = handleActions({
     }) => {
         let shopIndex = findIndex(state.shops, state.currentShopId);
         let productIndex = findIndex(state.shops[shopIndex].products, state.currentProductId);
-        let newState = {
-            ...state,
-            shops: [
-                ...state.shops = [
-                    ...state.shops,
-                    ...state.shops.products = []
-                ]
-            ],
-        };
+        let stateCopy =  lodash.cloneDeep(state);
+
         if (/\S/.test(state.currentWritingProduct.title) && state.currentWritingProduct.title != null) {
-            newState.shops[shopIndex].products[productIndex].title = title;
+            stateCopy.shops[shopIndex].products[productIndex].title = title;
         } else {
-            newState.shops[shopIndex].products[productIndex].title = state.shops[shopIndex].products[productIndex].title
+            stateCopy.shops[shopIndex].products[productIndex].title = state.shops[shopIndex].products[productIndex].title
         }
         if (/\S/.test(state.currentWritingProduct.description) && state.currentWritingProduct.description != null) {
-            newState.shops[shopIndex].products[productIndex].description = description;
+            stateCopy.shops[shopIndex].products[productIndex].description = description;
         } else {
-            newState.shops[shopIndex].products[productIndex].description = state.shops[shopIndex].products[productIndex].description
+            stateCopy.shops[shopIndex].products[productIndex].description = state.shops[shopIndex].products[productIndex].description
         }
-        newState.currentWritingProduct.title = '';
-        newState.currentWritingProduct.description = '';
-        return newState
+        stateCopy.currentWritingProduct.title = '';
+        stateCopy.currentWritingProduct.description = '';
+
+        return stateCopy
     },
 
     [addProduct.toString()]: (state, {
@@ -210,21 +214,20 @@ const shopPageReducer = handleActions({
             }
         }
     }) => {
-        let shopIndex = findIndex(state.shops, state.currentShopId);
         let newProduct = {
             id: guid(),
             title: title,
             description: description
         };
-        return {
-            ...state,
-            ...state.shops[shopIndex].products = [newProduct, ...state.shops[shopIndex].products],
-            currentWritingProduct: {
-                ...state.currentWritingProduct,
-                title: '',
-                description: ''
-            }
-        };
+
+        let shopIndex = findIndex(state.shops, state.currentShopId);
+        let stateCopy = lodash.cloneDeep(state);
+
+        stateCopy.shops[shopIndex].products = [newProduct, ...state.shops[shopIndex].products];
+        stateCopy.currentWritingProduct.title = '';
+        stateCopy.currentWritingProduct.description = '';
+
+        return stateCopy
     },
 
     [productTitleOnChange.toString()]: (state, {
@@ -232,11 +235,9 @@ const shopPageReducer = handleActions({
             title
         }
     }) => {
-        return {
-            ...state, currentWritingProduct: {
-                ...state.currentWritingProduct, title: title
-            }
-        };
+        let stateCopy = lodash.cloneDeep(state);
+        stateCopy.currentWritingProduct.title = title;
+        return stateCopy
     },
 
     [productDescriptionOnChange.toString()]: (state, {
@@ -244,47 +245,9 @@ const shopPageReducer = handleActions({
             description
         }
     }) => {
-        return {
-            ...state, currentWritingProduct: {
-                ...state.currentWritingProduct, description: description
-            }
-        }
-    },
-
-    [shopNameOnChange.toString()]: (state, {
-        payload: {
-            name
-        }
-    }) => {
-        return {
-            ...state, currentWritingShop: {
-                ...state.currentWritingShop, name: name
-            }
-        }
-    },
-
-    [productTitleOnChange.toString()]: (state, {
-        payload: {
-            title
-        }
-    }) => {
-        return {
-            ...state, currentWritingProduct: {
-                ...state.currentWritingProduct, title: title
-            }
-        }
-    },
-
-    [productDescriptionOnChange.toString()]: (state, {
-        payload: {
-            description
-        }
-    }) => {
-        return {
-            ...state, currentWritingProduct: {
-                ...state.currentWritingProduct, description: description
-            }
-        }
+        let stateCopy = lodash.cloneDeep(state);
+        stateCopy.currentWritingProduct.description = description;
+        return stateCopy
     },
 }, initialState);
 

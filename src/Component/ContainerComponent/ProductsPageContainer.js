@@ -2,9 +2,10 @@ import React from "react";
 import {connect} from "react-redux";
 import ProductsPage from "../PresentationalComponent/ShopPage/ProductsPage/ProductsPage";
 import {setProductId, setShopId} from "../../ReduxBLL/ActionThunksCreators/ShopsPageActionCreators";
-import {editShopSelector, productsSelector} from "../../ReduxBLL/PageSelectors/ShopPageSelectors";
+import {productsSelector, shopByIdSelector} from "../../ReduxBLL/PageSelectors/ShopPageSelectors";
 import {compose} from "redux";
 import {withRouter} from "react-router";
+import {createStructuredSelector} from 'reselect'
 
 class ProductsPageContainer extends React.Component {
     componentDidMount() {
@@ -24,12 +25,11 @@ class ProductsPageContainer extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        products: productsSelector(state),
-        shop: editShopSelector(state),
-    }
-};
+const mapStateToProps = createStructuredSelector({
+    products: productsSelector,
+    shop: shopByIdSelector
+});
+
 
 const mapDispatchToProps = dispatch => {
     return {

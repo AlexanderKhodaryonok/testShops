@@ -3,6 +3,7 @@ import {NavLink} from "react-router-dom";
 import s from "../../ShopsList/EditShop/EditShop.module.css";
 
 const EditProduct = ({currentShopId, product, currentWritingProduct, productDescriptionOnChange, productTitleOnChange, editProduct}) => {
+    debugger
     const editProductButtonClick = () => {
         return editProduct(currentWritingProduct)
     };

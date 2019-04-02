@@ -18,6 +18,7 @@ import {compose} from "redux";
 
 class EditProductContainer extends React.Component {
     componentDidMount() {
+        debugger
         //if the page (for ex. press F5) is refresh, the state.currentProductId will be reset. Therefore, it is necessary to synchronize the id from the state and url
         this.props.setShopId(this.props.match.params.id);
         this.props.setProductId(this.props.match.params.productId)
@@ -40,6 +41,7 @@ class EditProductContainer extends React.Component {
 }
 
 const mapStateToProps = state => {
+    debugger
     return {
         product: productSelector(state),
         currentShopId: currentShopIdSelector(state),
@@ -48,6 +50,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
+    debugger
     return {
         editProduct: product => {
             dispatch(editProduct({product}))

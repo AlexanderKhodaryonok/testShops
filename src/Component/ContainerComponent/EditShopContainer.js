@@ -9,7 +9,7 @@ import {
     shopAddressOnChange, shopNameOnChange,
     shopWorkingHoursOnChange
 } from "../../ReduxBLL/ActionThunksCreators/ShopsPageActionCreators";
-import {currentWritingShopSelector, editShopSelector} from "../../ReduxBLL/PageSelectors/ShopPageSelectors";
+import {currentWritingShopSelector, shopByIdSelector} from "../../ReduxBLL/PageSelectors/ShopPageSelectors";
 
 class EditShopContainer extends React.Component {
     componentDidMount() {
@@ -35,7 +35,7 @@ class EditShopContainer extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        shop: editShopSelector(state),
+        shop: shopByIdSelector(state),
         currentWritingShop: currentWritingShopSelector(state)
     }
 };
